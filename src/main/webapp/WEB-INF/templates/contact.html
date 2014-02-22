@@ -1,0 +1,46 @@
+<html>
+<head>
+    <title th:text="#{contact.titlePage}">Contact Manager</title>
+    <link rel="stylesheet" href="../css/main.css" th:href="@{/css/main.css}"/>
+</head>
+<body>
+<h2><p th:text="#{contact.titlePage}">Contact Manager</p></h2>
+<form action="#" th:action="@{/addContact}" th:object="${contact}" method="post">
+    <fieldset>
+        <legend align="bottom">Quick contact</legend>
+        <label for="firstName" th:text="#{contact.firstname}">First</label>
+        <input type="text" id="firstName" autofocus="autofocus" th:field="*{firstname}" />  <br/>
+        <label for="lastname" th:text="#{contact.lastname}">Last Name</label>
+        <input type="text" id="lastname" th:field="*{lastname}" /><br/>
+        <label for="email" th:text="#{contact.email}">Email</label>
+        <input type="email" id="email" placeholder="yourmail@company.com" required="required" th:field="*{email}" /> <br/>
+        <label for="phone" th:text="#{contact.phone}">Telephone</label>
+        <input type="text" id="phone" placeholder="555-123-4567" required="requried" pattern="^\d{3}[- ]?\d{3}[- ]?\d{4}$" th:field="*{telephone}" /> <br/>
+    </fieldset>
+    <button type="submit" name="save" th:text="#{contact.addNew}">Add Contact</button>
+</form>
+
+<div class="contactList" th:unless="${#lists.isEmpty(contactList)}">
+<h3><p th:text="#{contact.listHeader}">Contact List</p></h3>
+
+<table>
+    <thead>
+      <tr>
+        <th th:text="#{contact.fullname}">Name</th>
+        <th th:text="#{contact.email}">Email</th>
+        <th th:text="#{contact.phone}">Telephone</th>
+        <th th:text="#{contact.action}">Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="sb : ${contactList}">
+        <td th:text="*{sb.value.firstname} + ', ' + *{sb.value.lastname}">Adama, John</td>
+        <td th:text="*{sb.value.email}">john.admana@bsg.com</td>
+        <td th:text="*{sb.value.telephone}">555-555-5555</td>
+        <td><a href="delete" th:href="@{/delete/__${sb.value.email}__}" th:text="#{contact.action}">delete me!</a></td>
+      </tr>
+      </tbody>
+</table>
+</div>
+</body>
+</html>
